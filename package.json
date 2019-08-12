@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "if [ -f ./package.json ]; then npm run build; fi",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.pro.js"
+    "build": "npm run pro",
+    "dev": "webpack-dev-server --config ./config/webpack.dev.js",
+    "pro": "webpack --config ./config/webpack.pro.js"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +29,7 @@
     "mockjs": "^1.0.1-beta3",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0",
     "webpack-merge": "^4.2.1"
   }
 }
