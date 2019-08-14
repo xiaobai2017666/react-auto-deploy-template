@@ -1,14 +1,26 @@
 const path = require('path');
-var glob = require('glob');
+let glob = require('glob');
 
-var MODULE_PATH = path.resolve(__dirname, '../src/module');
+let MODULE_PATH = path.resolve(__dirname, '../src/module');
+
+let entries = glob.sync(path.resolve(MODULE_PATH, './*/index.js'));
 
 module.exports = {
     getEntries() {
-        var entryJs = glob.sync(path.resolve(MODULE_PATH, './*/*.js'));
+        let map = {};
 
-        console.log(entryJs);
+        entries.forEach((item) => {
+            const reg=/(?<=(\\|\/))[^\\/]+(?=((\\|\/)index\.js))/g;
+            const key=item.match(reg)[0];
+
+            map[key]=item;
+        })
+
+        console.log(map);
+
+        return map;
     }
+
 }
 
 module.exports.getEntries();

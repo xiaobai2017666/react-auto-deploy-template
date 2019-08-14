@@ -7,6 +7,7 @@ const config = require('./webpack.base');
 module.exports = merge(config, {
     mode: 'development',
     output: {
+        filename: '[name].js',
 		path: path.resolve(ROOT_PATH, './dist')
     },
     devServer: {

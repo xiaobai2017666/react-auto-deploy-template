@@ -7,8 +7,8 @@ const config = require('./webpack.base');
 module.exports = merge(config, {
     mode: 'production',
     output: {
-        path: path.resolve(ROOT_PATH, './dist'),
-        filename: 'index.[hash].bundle.js'
+        filename: 'index.[hash].bundle.js',
+		path: path.resolve(ROOT_PATH, './dist/[name]/')
     },
     optimization: {
         minimize: true

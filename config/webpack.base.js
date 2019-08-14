@@ -2,16 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ROOT_PATH = path.resolve(__dirname, '../');
-const UTIL = require('./utils');
+const UTILS = require('./utils');
 
-console.log(UTIL);
 
 module.exports = {
-	entry: {
-		index: [
-            './src/index.js'
-        ]
-	},
+	entry: UTILS.getEntries(),
 	resolve: {
 		alias: {
 			'@': path.resolve(ROOT_PATH, './src/module'),
