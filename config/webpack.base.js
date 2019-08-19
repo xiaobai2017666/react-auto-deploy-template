@@ -1,12 +1,15 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const ROOT_PATH = path.resolve(__dirname, '../');
 const UTILS = require('./utils');
 
-
 module.exports = {
 	entry: UTILS.getEntries(),
+	output: {
+        filename: '[name]/bundle.[hash].js',
+		path: path.resolve(ROOT_PATH, './dist')
+    },
 	resolve: {
 		alias: {
 			'@': path.resolve(ROOT_PATH, './src/module'),
@@ -22,7 +25,12 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
-				exclude: /node_modules/,
+				include: [
+					path.resolve(ROOT_PATH, './src')
+				],
+				exclude: [
+					path.resolve(ROOT_PATH, './src/static')
+				],
 				loader: "babel-loader",
 				options: {
 					presets: [
@@ -33,7 +41,9 @@ module.exports = {
 			  },
 			{
 				test: /\.(png|gif|jpg|jpeg|woff|eot|ttf|svg)$/,
-				exclude: /node_modules/,
+				include: [
+					path.resolve(ROOT_PATH, './src/static')
+				],
 				loader: 'url-loader',
 				options: {
 					name: 'img/[name].[ext]',
@@ -42,9 +52,27 @@ module.exports = {
 			}
 		]
 	},
+	optimization: {
+        splitChunks: {
+            cacheGroups: {
+                modules: {
+					name: 'modules',
+					filename: 'common/[name].[hash].js',
+                    test: /node_modules/,
+					chunks: 'initial',
+                    priority: 10
+				},
+				lib: {
+					name: 'lib',
+					filename: 'common/[name].[hash].js',
+                    test: /src[\\/]lib/,
+					chunks: 'initial',
+                    priority: 10
+				}
+            }
+        }
+    },
 	plugins: [
-        new HtmlWebpackPlugin({
-			template: path.resolve(ROOT_PATH, './src/index.html')
-		})
-	]
+		new CleanWebpackPlugin()
+	].concat(UTILS.getHtmlPlugins())
 }
