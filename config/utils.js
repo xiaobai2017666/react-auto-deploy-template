@@ -20,7 +20,7 @@ function getFileMap() {
     return map;
 }
 
-const filesMap = getFileMap();
+const filesMap = getFileMap();  //模块名-模块入口路径的映射
 
 
 module.exports = {
@@ -53,5 +53,9 @@ module.exports = {
         });
 
         return results;
+    },
+
+    isParam(param,args) {
+        return !!~args.indexOf(`--${param}`);
     }
 }
