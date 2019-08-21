@@ -14,11 +14,11 @@ class Helloworld extends React.Component {
 
     componentWillMount() {
         Axios({
-            url: 'http://localhost:9000/test',
+            url: '/api/test',
             method: 'GET'
         }).then((res) => {
             this.setState({
-                msg: res.data.data
+                msg: res.data.msg
             });
         });
     }
