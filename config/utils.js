@@ -57,5 +57,12 @@ module.exports = {
 
     isParam(param,args) {
         return !!~args.indexOf(`--${param}`);
+    },
+
+    //参数缺失验证
+    isUndefined(params) { //pararm Object<key:value>
+        Reflect.ownKeys(params).forEach((item) => {
+            if(!params[item]) throw new Error(`${item} is undefined !`);
+        });
     }
 }

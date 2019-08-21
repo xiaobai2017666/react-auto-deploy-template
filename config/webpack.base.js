@@ -24,6 +24,17 @@ module.exports = {
 	module: {
 		rules: [
 			{
+				test: /\.(css)$/,
+				include: [
+					path.resolve(ROOT_PATH, './src/module'),
+					path.resolve(ROOT_PATH, './src/lib')
+				],
+				use: [
+					'style-loader',
+					'css-loader'
+				]
+			},
+			{
 				test: /\.(js|jsx)$/,
 				include: [
 					path.resolve(ROOT_PATH, './src')
@@ -31,24 +42,46 @@ module.exports = {
 				exclude: [
 					path.resolve(ROOT_PATH, './src/static')
 				],
-				loader: "babel-loader",
-				options: {
-					presets: [
-						"@babel/env",
-						"@babel/preset-react"
-					]
-				}
-			  },
+				use: [
+					{
+						loader: "babel-loader",
+						options: {
+							presets: [
+								"@babel/env",
+								"@babel/preset-react"
+							]
+						}
+					}
+				]
+			},
 			{
-				test: /\.(png|gif|jpg|jpeg|woff|eot|ttf|svg)$/,
+				test: /\.(png|gif|jpg|jpeg|svg)$/,
 				include: [
-					path.resolve(ROOT_PATH, './src/static')
+					path.resolve(ROOT_PATH, './src/static/img')
 				],
-				loader: 'url-loader',
-				options: {
-					name: 'img/[name].[ext]',
-					limit: 1024
-				}
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							name: 'img/[name].[ext]',
+							limit: 1024
+						}
+					}
+				]
+			},
+			{
+				test: /\.(woff|eot|ttf)$/,
+				include: [
+					path.resolve(ROOT_PATH, './src/static/font')
+				],
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							name: 'font/[name].[ext]'
+						}
+					}
+				]
 			}
 		]
 	},

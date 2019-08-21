@@ -5,6 +5,6 @@ module.exports = [{
     data: {
         errno: 0,
         errmsg: '',
-        data: {}
+        data: "hello world"
     }
 }]
