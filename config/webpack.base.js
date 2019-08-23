@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack =require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const ROOT_PATH = path.resolve(__dirname, '../');

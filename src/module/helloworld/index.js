@@ -25,7 +25,7 @@ class Helloworld extends React.Component {
 
     render() {
         return (
-            <h1>{this.state.msg}</h1>
+            <h1>{this.state.msg + ENV}</h1>
         );
     }
 }

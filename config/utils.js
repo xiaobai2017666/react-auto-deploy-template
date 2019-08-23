@@ -64,5 +64,7 @@ module.exports = {
         Reflect.ownKeys(params).forEach((item) => {
             if(!params[item]) throw new Error(`${item} is undefined !`);
         });
-    }
+    },
+
+    
 }

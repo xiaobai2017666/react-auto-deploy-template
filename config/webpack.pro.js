@@ -9,4 +9,9 @@ module.exports = merge(config, {
     optimization: {
         minimize: true
     },
+    // plugins: [
+    //     new webpack.DefinePlugin({
+    //         'BASEURL': JSON.stringify('http://localhost:9000'),
+    //     })
+    // ]
 });
