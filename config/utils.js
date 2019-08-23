@@ -1,4 +1,5 @@
 const path = require('path');
+const net = require('net');
 const glob = require('glob');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
