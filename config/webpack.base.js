@@ -1,5 +1,5 @@
 const path = require('path');
-const webpack =require('webpack');
+// const webpack =require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const ROOT_PATH = path.resolve(__dirname, '../');
@@ -13,7 +13,7 @@ module.exports = {
     },
 	resolve: {
 		alias: {
-			'@': path.resolve(ROOT_PATH, './src/module'),
+			'@': path.resolve(ROOT_PATH, './src/lib'),
 			'REQUEST': path.resolve(ROOT_PATH, './src/request'),
 			'ROUTER': path.resolve(ROOT_PATH, './src/router'),
 			'LANGUAGE': path.resolve(ROOT_PATH, './src/language'),
@@ -93,7 +93,7 @@ module.exports = {
 					name: 'modules',
 					filename: 'common/[name].[hash].js',
                     test: /node_modules/,
-					chunks: 'initial',
+					chunks: 'all',
                     priority: 10
 				},
 				lib: {
@@ -101,12 +101,15 @@ module.exports = {
 					filename: 'common/[name].[hash].js',
                     test: /src[\\/]lib/,
 					chunks: 'initial',
+					enforce: true,
                     priority: 10
 				}
             }
         }
     },
 	plugins: [
-		new CleanWebpackPlugin()
+		new CleanWebpackPlugin({
+			cleanOnceBeforeBuildPatterns: ['!/common']
+		})
 	].concat(UTILS.getHtmlPlugins())
 }

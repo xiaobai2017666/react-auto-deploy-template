@@ -8,7 +8,7 @@ class Helloworld extends React.Component {
     constructor() {
         super();
         this.state = {
-            msg: ""
+            msg: "aaaa"
         }
     }
 
