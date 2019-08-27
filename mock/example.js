@@ -1,6 +1,6 @@
 //示例
 module.exports = [{
-    url: '/test',
+    url: '/api/test',
     type: 'GET',
     data: {
         errno: 0,

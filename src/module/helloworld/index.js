@@ -18,14 +18,14 @@ class Helloworld extends React.Component {
             method: 'GET'
         }).then((res) => {
             this.setState({
-                msg: res.data.msg
+                msg: res.data.data
             });
         });
     }
 
     render() {
         return (
-            <h1>{this.state.msg + ENV}</h1>
+            <h1>{this.state.msg}</h1>
         );
     }
 }
