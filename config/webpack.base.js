@@ -108,8 +108,6 @@ module.exports = {
         }
     },
 	plugins: [
-		new CleanWebpackPlugin({
-			cleanOnceBeforeBuildPatterns: ['!/common']
-		})
+		new CleanWebpackPlugin()
 	].concat(UTILS.getHtmlPlugins())
 }
