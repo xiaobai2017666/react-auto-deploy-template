@@ -67,5 +67,17 @@ module.exports = {
         });
     },
 
-    
+    debounce(fn,delay) {
+        let timer = null;
+        return function() {
+            if(timer) {
+                clearTimeout(timer);
+                timer = null;
+            }
+            timer=setTimeout(() => {
+                fn();
+                timer = null;
+            },delay);
+        }
+    }
 }
