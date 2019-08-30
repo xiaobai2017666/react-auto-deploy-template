@@ -28,7 +28,8 @@ module.exports = {
 				test: /\.(css)$/,
 				include: [
 					path.resolve(ROOT_PATH, './src/module'),
-					path.resolve(ROOT_PATH, './src/lib')
+					path.resolve(ROOT_PATH, './src/lib'),
+					path.resolve(ROOT_PATH, './node_modules')
 				],
 				use: [
 					'style-loader',
