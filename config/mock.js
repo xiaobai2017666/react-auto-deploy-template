@@ -26,16 +26,14 @@ function _mock(app,item) {
 
 function watchFile(url,cb) {
     fs.watchFile(url,(cur,pre) => {
-        console.log('mock数据正在修改，请稍后...');
-
         cb();
-
-        console.log('mock数据已修改成功～');
     })
 }
 
 const mockToDebounce = function(app,item) {
     return function() {
+        console.log('mock数据正在修改，请稍后...');
+        
         require.cache[require.resolve(item)] = null;  //清除缓存
         const config = require(item);
 
@@ -58,6 +56,8 @@ const mockToDebounce = function(app,item) {
                 });
             })
         }
+
+        console.log('mock数据已修改成功～');
     }
 }
 

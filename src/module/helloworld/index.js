@@ -21,6 +21,8 @@ class Helloworld extends React.Component {
                 msg: res.data.data
             });
         });
+
+        console.log(this);
     }
 
     render() {

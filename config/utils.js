@@ -1,10 +1,14 @@
 const path = require('path');
-const net = require('net');
 const glob = require('glob');
+const { execSync } = require('child_process');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ROOT_PATH = path.resolve(__dirname, '../');
 const MODULE_PATH = path.resolve(__dirname, '../src/module');
+
+function spaceEscape(path) {  //此函数为了exec类似函数执行代码遇到有空格的文件path的一个处理
+    return path.replace(/(\s)/,'\\$1');
+}
 
 function getFileMap() {
     const entries = glob.sync(path.resolve(MODULE_PATH, './*/index.js'));
@@ -79,5 +83,17 @@ module.exports = {
                 timer = null;
             },delay);
         }
+    },
+
+    freePortFinder(port) {
+        const stdout = execSync(`node ${ spaceEscape(path.resolve(ROOT_PATH, './config/port.js')) } ${port}`,{
+            encoding: 'utf8',
+        });
+
+        const result = stdout.trim() * 1;
+        if(result !== port) {
+            console.log(`port: ${port}已被占用，查找到未占用port: ${result}`);
+        }
+        return result;
     }
 }
