@@ -27,13 +27,23 @@ module.exports = {
 			{
 				test: /\.(css)$/,
 				include: [
-					path.resolve(ROOT_PATH, './src/module'),
-					path.resolve(ROOT_PATH, './src/lib'),
 					path.resolve(ROOT_PATH, './node_modules')
 				],
 				use: [
 					'style-loader',
-					'css-loader'
+					'css-loader',
+				]
+			},
+			{
+				test: /\.(less)$/,
+				include: [
+					path.resolve(ROOT_PATH, './src/module'),
+					path.resolve(ROOT_PATH, './src/lib'),
+				],
+				use: [
+					'style-loader',
+					'css-loader',
+					'less-loader',
 				]
 			},
 			{
@@ -51,6 +61,10 @@ module.exports = {
 							presets: [
 								"@babel/env",
 								"@babel/preset-react"
+							],
+							"plugins": [
+								["import", { libraryName: "antd-mobile", style: "css" }],
+								"@babel/plugin-proposal-class-properties",
 							]
 						}
 					}

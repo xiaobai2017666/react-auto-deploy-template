@@ -17,7 +17,7 @@ function _mock(app,item) {
                 data: item.data
             });
 
-            app[item.type.toLowerCase()](item.url,(req,res) => {
+            app[item.type.toLowerCase()](`/api${item.url}`,(req,res) => {
                 res.send(item.data);
             });
         })
@@ -42,7 +42,7 @@ const mockToDebounce = function(app,item) {
                 UTILS.isUndefined({
                     type: mockItem.type,
                     url: mockItem.url,
-                    data: mockItem.data
+                    data: (Object.prototype.toString.call() === '[object Function]' ? mockItem.data() : mockItem.data)
                 });
 
                 app._router.stack.forEach((routeItem,index) => {

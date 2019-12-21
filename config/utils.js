@@ -1,6 +1,6 @@
 const path = require('path');
 const glob = require('glob');
-const { execSync } = require('child_process');
+const net = require('net');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ROOT_PATH = path.resolve(__dirname, '../');
@@ -85,15 +85,21 @@ module.exports = {
         }
     },
 
-    freePortFinder(port) {
-        const stdout = execSync(`node ${ spaceEscape(path.resolve(ROOT_PATH, './config/port.js')) } ${port}`,{
-            encoding: 'utf8',
-        });
+    PortDetect(devServer) {
+        const port = devServer.port;
 
-        const result = stdout.trim() * 1;
-        if(result !== port) {
-            console.log(`port: ${port}已被占用，查找到未占用port: ${result}`);
-        }
-        return result;
+        return new Promise((resolve) => {
+            const examiner = net.createServer().on('listening',() => {
+                devServer.port = examiner.address().port;
+                examiner.close();
+                console.log(`devServer将启动于端口 ${devServer.port}！`);
+                resolve(devServer.port);
+            }).on('error',(err) => {
+                console.log(`port ${port} 已被占用！\n将随机寻找空闲端口。`);
+                examiner.listen();
+            });
+            
+            examiner.listen(port);
+        })
     }
 }

@@ -1,34 +1,61 @@
 const merge = require('webpack-merge');
 const webpack =require('webpack');
 const path = require('path');
-const express = require('express');
 
 const ROOT_PATH = path.resolve(__dirname, '../');
 const UTILS = require('./utils');
 const MOCK = require('./mock');
-const PROXY = require('./proxy');
-const config = require('./webpack.base');
+const proxy = require('http-proxy-middleware');
+const baseConfig = require('./webpack.base');
 
-const DEFAULT_PORT = 6789;  //port默认值
-
-module.exports = merge(config, {
+const CONFIG = {
     mode: 'development',
     devServer: {
-        contentBase: path.join(ROOT_PATH, 'dist'),
-        port: UTILS.freePortFinder(DEFAULT_PORT),
+        contentBase: path.join(ROOT_PATH, './src/module'),
+        port: 6789,
         hot: true,
-        before(app,server) {
+        before(app) {
             if(UTILS.isParam('mock',process.argv)) {
                 MOCK(app);
             }else {
-                PROXY(app);
+                app.use(
+                    '/api',
+                    //                   联调地址
+                    proxy({
+                        target: 'http://localhost:5656',
+                        changeOrigin: true,
+                        pathRewrite: {
+                            '^/api/': '/',
+                        },
+                    })
+                )
             }
         },
-        // bonjour: true,
     },
-    plugins: [
-        new webpack.DefinePlugin({
-            'BASEURL': JSON.stringify('http://localhost:9000'),
-        }),
-    ]
-});
+    plugins: [],
+}
+
+
+
+
+
+
+
+
+
+
+
+module.exports = function() {
+    return new Promise((resolve) => {
+        UTILS.PortDetect(CONFIG.devServer)
+            .then((port) => {
+                CONFIG.plugins.push(
+                    new webpack.DefinePlugin({
+                        'PREFIX': JSON.stringify(`http://localhost:${port}/api`),
+                    })
+                );
+
+                resolve(merge(baseConfig,CONFIG));
+            })
+    });
+}
