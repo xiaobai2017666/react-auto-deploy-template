@@ -18,7 +18,17 @@ function _mock(app,item) {
             });
 
             app[item.type.toLowerCase()](`/api${item.url}`,(req,res) => {
-                res.send(item.data);
+                if(typeof item.data === 'function') {
+                    if(item.type.toLowerCase() === 'get') {
+                        res.send(item.data(req.query));
+                    }else if(item.type.toLowerCase() === 'post') {
+                        res.send(item.data(req.body));
+                    }else {
+                        res.send();
+                    }
+                }else {
+                    res.send(item.data);
+                }
             });
         })
     }
@@ -52,7 +62,18 @@ const mockToDebounce = function(app,item) {
                 });
     
                 app[mockItem.type.toLowerCase()](`/api${mockItem.url}`,(req,res) => {
-                    res.send(mockItem.data);
+                    if(typeof mockItem.data === 'function') {
+                        if(mockItem.type.toLowerCase() === 'get') {
+                            res.send(mockItem.data(req.query));
+                        }else if(mockItem.type.toLowerCase() === 'post') {
+                            res.send(mockItem.data(req.body));
+                        }else {
+                            res.send();
+                        }
+                    }else {
+                        res.send(mockItem.data);
+                    }
+                    
                 });
             })
         }

@@ -1,6 +1,7 @@
 const merge = require('webpack-merge');
 const webpack =require('webpack');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const ROOT_PATH = path.resolve(__dirname, '../');
 const UTILS = require('./utils');
@@ -16,6 +17,7 @@ const CONFIG = {
         hot: true,
         before(app) {
             if(UTILS.isParam('mock',process.argv)) {
+                app.use(bodyParser.json());
                 MOCK(app);
             }else {
                 app.use(

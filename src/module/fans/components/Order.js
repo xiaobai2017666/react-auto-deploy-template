@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Form from '@/Form/index';
+import Form from '@/Form/Form';
 
 import { Table, Button, Modal } from 'antd';
 
@@ -16,6 +16,69 @@ export default class OrderManager extends Component {
             this.setState({
                 orders: res.data
             })
+        })
+    }
+
+    onEditHandle = (data, orderNumber) => {
+        const modal = Modal.info();
+        
+        const CONFIG = {
+            feilds: {
+                orderName: {
+                    fit: 'input',
+                    name: '订单名称',
+                    rules: [
+                        (val) => {
+                            if(val === '') return '订单名称不能为空！'
+                        }
+                    ],
+                },
+                type: {
+                    fit: 'input',
+                    name: '种类',
+                },
+                onePrice: {
+                    fit: 'input',
+                    name: '单价',
+                    rules: [
+                        (val) => {
+                            if(val === '') return '单价不能为空！'
+                        }
+                    ],
+                },
+                num: {
+                    fit: 'input',
+                    name: '数量',
+                    rules: [
+                        (val) => {
+                            if(val === '') return '数量不能为空！'
+                        }
+                    ],
+                },
+            },
+            btns: [
+                '确定',
+                '重置',
+                <Button
+                    onClick={()=>{modal.destroy()}}>取消</Button>,
+            ],
+            source: {
+                url: `${PREFIX}/editOrder/${orderNumber}`,
+            },
+            initValues: { ...data }
+        }
+
+        modal.update({
+            title: '编辑订单',
+            icon: false,
+            content: (
+                <Form { ...CONFIG }/>
+            ),
+            okButtonProps: {
+                style: {
+                    'display': 'none'
+                }
+            }
         })
     }
 
@@ -63,7 +126,7 @@ export default class OrderManager extends Component {
                     onClick={()=>{modal.destroy()}}>取消</Button>,
             ],
             source: {
-                url: `${PREFIX}/login`,
+                url: `${PREFIX}/addOrder`,
             }
         }
 
@@ -81,7 +144,13 @@ export default class OrderManager extends Component {
         })
     }
 
-
+    onDeleteHandle = (index) => {
+        const current = [ ...this.state.orders ];
+        current.splice(index, 1);
+        this.setState({
+            orders: current
+        })
+    }
 
     render() {
         const columns = [
@@ -108,7 +177,7 @@ export default class OrderManager extends Component {
             {
                 title: '总计',
                 render(text, record) {
-                    console.log(record);
+                    return record.onePrice * record.num;
                 }
             },
             {
@@ -117,9 +186,19 @@ export default class OrderManager extends Component {
             },
             {
                 title: '操作',
-                render(text, record, index) {
+                render: (text, record, index) => {
                     return (
-                        <Button>删除</Button>
+                        <div>
+                            <Button
+                                style={{
+                                    'marginRright': '12px'
+                                }}
+                                onClick={() => {this.onEditHandle(record, record.orderNumber)}}>编辑</Button>
+                            <Button
+                                onClick={() => {this.onDeleteHandle(index)}}>删除</Button>
+                        </div>
+
+
                     )
                 },
             }

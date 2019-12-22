@@ -5,6 +5,8 @@ import Register from './components/Register';
 import MessageManager from './components/Message';
 import AddMessage from './components/AddMessage';
 import OrderManager from './components/Order';
+import UserManager from './components/User';
+import TypeManager from './components/Type';
 
 import { Layout, Menu } from 'antd';
 import 'antd/dist/antd.css';
@@ -62,6 +64,8 @@ class Main extends Component {
                             <Route path="/message" component={MessageManager} />
                             <Route path="/addmessage" component={AddMessage} />
                             <Route path="/order" component={OrderManager} />
+                            <Route path="/user" component={UserManager} />
+                            <Route path="/type" component={TypeManager} />
                             <Route path="/" component={Home} />
                         </Switch>
                     </Content>

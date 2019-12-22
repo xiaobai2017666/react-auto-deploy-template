@@ -41,6 +41,18 @@ export default class Form extends Component {
             ...Components,
             ...Form.formItems,
         }
+
+        Form.register = () => {
+            console.log('Form组件已注册过');
+        }
+    }
+
+    componentDidMount() {
+        const {
+            initValues,
+        } = this.props;
+
+        this.setValues(initValues);
     }
 
     getValues = () => {
@@ -198,8 +210,8 @@ export default class Form extends Component {
     }
 
     /*todolist
-        全局问题
         布局
+        验证、请求优化
     */
     render() {
         const {

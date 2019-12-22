@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Form from '@/Form/index';
+import Form from '@/Form/Form';
 
 import { Card } from 'antd';
 
