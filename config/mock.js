@@ -34,7 +34,7 @@ const mockToDebounce = function(app,item) {
     return function() {
         console.log('mock数据正在修改，请稍后...');
         
-        require.cache[require.resolve(item)] = null;  //清除缓存
+        delete require.cache[require.resolve(item)];  //清除缓存
         const config = require(item);
 
         if(config.length > 0) {
@@ -46,12 +46,12 @@ const mockToDebounce = function(app,item) {
                 });
 
                 app._router.stack.forEach((routeItem,index) => {
-                    if(routeItem.route && routeItem.route.path === mockItem.url) {
+                    if(routeItem.route && routeItem.route.path === `/api${mockItem.url}`) {
                         app._router.stack.splice(index,1);
                     }
                 });
     
-                app[mockItem.type.toLowerCase()](mockItem.url,(req,res) => {
+                app[mockItem.type.toLowerCase()](`/api${mockItem.url}`,(req,res) => {
                     res.send(mockItem.data);
                 });
             })

@@ -18,5 +18,19 @@ module.exports = [
             },
 
         ]
+    },
+    {
+        url: '/getOrders',
+        type: 'get',
+        data: [1,2,3,4,5,6,7,8,9].map((item, index) => {
+            return {
+                orderNumber: `0000${index + 1}`,
+                orderName: `订单${index + 1}`,
+                type: '无',
+                onePrice: '100',
+                num: '222',
+                person: 'admin'
+            }
+        })
     }
 ]

@@ -59,7 +59,7 @@ export default class Form extends Component {
         if(!data) {
             this.state.keys.forEach((item) => {
                 if(this._refs[item]) {
-                    this._refs[item].current.setValue();
+                    this._refs[item].current.setValue("");
                 }
             });
 
@@ -83,8 +83,9 @@ export default class Form extends Component {
 
             feilds[item].rules && feilds[item].rules.forEach((callback) => {
                 const value = this._refs[item].current.getValue();
+                const allValues = this.getValues();
 
-                const msg = callback(value);
+                const msg = callback(value, allValues);
                 if(msg && typeof msg === 'string') {
                     validator.push(msg);
                     result = false;

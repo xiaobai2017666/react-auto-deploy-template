@@ -24,19 +24,37 @@ export default class OrderManager extends Component {
         
         const CONFIG = {
             feilds: {
-                username: {
+                ordername: {
                     fit: 'input',
-                    name: '用户名',
+                    name: '订单名称',
                     rules: [
                         (val) => {
-                            if(val === '') return '用户名不能为空！'
+                            if(val === '') return '订单名称不能为空！'
                         }
-                    ]
+                    ],
                 },
-                password: {
+                type: {
                     fit: 'input',
-                    name: '密码',
-                }
+                    name: '种类',
+                },
+                oneprice: {
+                    fit: 'input',
+                    name: '单价',
+                    rules: [
+                        (val) => {
+                            if(val === '') return '单价不能为空！'
+                        }
+                    ],
+                },
+                num: {
+                    fit: 'input',
+                    name: '数量',
+                    rules: [
+                        (val) => {
+                            if(val === '') return '数量不能为空！'
+                        }
+                    ],
+                },
             },
             btns: [
                 '确定',
@@ -69,34 +87,42 @@ export default class OrderManager extends Component {
         const columns = [
             {
                 title: '订单号',
-                dataIndex: 'text',
-                key: 'text',
+                dataIndex: 'orderNumber',
             },
             {
                 title: '订单',
-                dataIndex: 'name',
-                key: 'name',
+                dataIndex: 'orderName',
+            },
+            {
+                title: '种类',
+                dataIndex: 'type',
             },
             {
                 title: '单价',
-                dataIndex: 'text',
-                key: 'text',
+                dataIndex: 'onePrice',
             },
             {
                 title: '数量',
-                dataIndex: 'text',
-                key: 'text',
+                dataIndex: 'num',
             },
             {
                 title: '总计',
-                dataIndex: 'text',
-                key: 'text',
+                render(text, record) {
+                    console.log(record);
+                }
             },
             {
                 title: '发起人',
-                dataIndex: 'text',
-                key: 'text',
+                dataIndex: 'person',
             },
+            {
+                title: '操作',
+                render(text, record, index) {
+                    return (
+                        <Button>删除</Button>
+                    )
+                },
+            }
         ]
 
         return (
