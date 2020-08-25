@@ -4,6 +4,15 @@ import { Button } from 'antd';
 
 import './form.less';
 
+function BtnsLabel(props) {
+    const { layout } = props;
+
+    if(!layout || layout === 'horizontal') {
+        return <label className="form-item-label"></label>
+    }
+    return null;
+}
+
 export default class Form extends Component {
     constructor(props) {
         super(props);
@@ -211,7 +220,7 @@ export default class Form extends Component {
 
     /*todolist
         布局
-        验证、请求优化
+        表单验证Promise、请求优化
     */
     render() {
         const {
@@ -244,9 +253,9 @@ export default class Form extends Component {
 
                         if(fit === 'text' && ~keys.indexOf(item)) {
                             return (
-                                <div className="form-item">
-                                    <label className="form-item-label"></label>
-                                    <div className="form-item-content">
+                                <div className={layout ? `form-item-${layout}`: 'form-item'}>
+                                    <label className='form-item-label'></label>
+                                    <div className='form-item-content'>
                                         <p { ...props }>{ props.content }</p>
                                     </div>
                                 </div>
@@ -255,9 +264,9 @@ export default class Form extends Component {
 
                         if(~keys.indexOf(item)) {
                             return (
-                                <div className="form-item">
-                                    <label className="form-item-label">{name}</label>
-                                    <div className="form-item-content">
+                                <div className={layout ? `form-item-${layout}`: 'form-item'}>
+                                    <label className='form-item-label'>{name}</label>
+                                    <div className='form-item-content'>
                                         <Component
                                             {...props}
                                             ref={this._refs[item]}
@@ -279,8 +288,8 @@ export default class Form extends Component {
                         }
                     })
                 }
-                <div className="form-btns">
-                    <label className="form-item-label"></label>
+                <div className={layout ? `form-btns-${layout}`: 'form-btns'}>
+                    <BtnsLabel layout={layout} />
                     {
                         btnsConfig.map((item, index) => {
                             if(typeof item === 'string' && index === 0) return (

@@ -35,6 +35,17 @@ export default class Home extends Component {
                 password: {
                     fit: 'input',
                     name: '密码',
+                    defaultValue:'123456'
+                },
+                password2: {
+                    fit: 'input',
+                    name: '密码',
+                    defaultValue:'123456'
+                },
+                password3: {
+                    fit: 'input',
+                    name: '密码',
+                    defaultValue:'123456'
                 }
             },
             btns: [
@@ -42,7 +53,8 @@ export default class Home extends Component {
                 '重置',
             ],
             source: {
-                url: `${PREFIX}/login`,
+                url: `https://xyapi.xiaoniangao.cn/mock/304/api/test/test`,
+                method: 'GET',
                 afterAjax: (res) => {
                     if(res.data !== 'failed') {
                         localStorage.setItem('username', res.data);
@@ -51,7 +63,8 @@ export default class Home extends Component {
                         })
                     }
                 }
-            }
+            },
+            layout: 'vertical',
         }
 
         const { isLogin } = this.state;
@@ -60,7 +73,7 @@ export default class Home extends Component {
         if(this.state.isLogin) {
             return (
                 <Card title={`欢迎您，${username}!`}>
-                    <Button onClick={() => {this.setState({isLogin: false});localStorage.remove('username');}}>注销</Button>
+                    <Button onClick={() => {this.setState({isLogin: false});localStorage.removeItem('username');}}>注销</Button>
                 </Card>
             )
         }

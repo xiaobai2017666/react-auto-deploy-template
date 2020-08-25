@@ -11,12 +11,6 @@ function _mock(app,item) {
     const config = require(item);
     if(config.length > 0) {
         config.forEach((item) => {
-            UTILS.isUndefined({
-                type: item.type,
-                url: item.url,
-                data: item.data
-            });
-
             app[item.type.toLowerCase()](`/api${item.url}`,(req,res) => {
                 if(typeof item.data === 'function') {
                     if(item.type.toLowerCase() === 'get') {

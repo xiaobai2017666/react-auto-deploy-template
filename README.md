@@ -15,4 +15,4 @@
 
 ### 使用说明
 
-等待完善
+启动 npm run start:dev
